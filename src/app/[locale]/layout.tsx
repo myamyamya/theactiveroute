@@ -6,6 +6,7 @@ import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import Navbar from '@/components/Navbar';
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,15 @@ export default async function RootLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Google AdSense */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5861120009706248"
+          crossOrigin="anonymous"
+          strategy="afterInteractive" // <--- Loads efficiently after the page is interactive
+        />
+      </head>
       <body className="min-h-full flex flex-col relative bg-zinc-50 dark:bg-zinc-950">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
