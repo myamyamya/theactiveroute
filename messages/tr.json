@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "title": "The Active Route Etkinlik Takvimi'ne Hoş Geldiniz!",
+    "description": "Aradığınız etkinlikler parmağınızın ucunda. Filtreleyin, keşfedin ve katılın!",
+    "deploy": "Şimdi Dağıt",
+    "docs": "Belgeler"
+  },
+  "EventCard": {
+    "past": "Geçmiş",
+    "ongoing": "Devam Ediyor",
+    "upcoming": "Yaklaşan",
+    "tba": "Belirsiz",
+    "dateTbd": "Tarih Belirsiz"
+  },
+  "EventFilter": {
+    "all": "Hepsi",
+    "nextWeek": "Gelecek Hafta",
+    "next2Weeks": "2 Hafta İçinde",
+    "thisMonth": "Bu Ay",
+    "nextMonth": "Gelecek Ay",
+    "secondNextMonth": "2. Gelecek Ay",
+    "thirdNextMonth": "3. Gelecek Ay",
+    "thisQuarter": "Bu Çeyrek",
+    "thisYear": "Bu Yıl",
+    "countSingle": "etkinlik",
+    "countPlural": "etkinlik",
+    "found": "bulundu",
+    "showFilters": "Filtreleri Göster",
+    "hideFilters": "Filtreleri Gizle"
+  },
+  "EventTypes": {
+    "Yol koşusu": "Yol koşusu",
+    "Gran Fondo": "Gran Fondo",
+    "Patika Koşusu": "Patika Koşusu",
+    "Federasyon": "Federasyon",
+    "Koşu": "Koşu",
+    "Triatlon": "Triatlon",
+    "Bisiklet": "Bisiklet",
+    "Duatlon": "Duatlon",
+    "Yüzme": "Yüzme"
+  }
+
+  ,
+  "Navbar": {
+    "events": "Etkinlikler",
+    "about": "Hakkında",
+    "contact": "İletişim",
+    "logo": "The Active Route"
+  }
+}

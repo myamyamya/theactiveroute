@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "title": "Welcome to The Active Route Event Calendar!",
+    "description": "Find your next event at your fingertips. Filter, discover, and join the action!",
+    "deploy": "Deploy Now",
+    "docs": "Documentation"
+  },
+  "EventCard": {
+    "past": "Past",
+    "ongoing": "Ongoing",
+    "upcoming": "Upcoming",
+    "tba": "TBA",
+    "dateTbd": "Date TBD"
+  },
+  "EventFilter": {
+    "all": "All",
+    "nextWeek": "Next Week",
+    "next2Weeks": "Next 2 Weeks",
+    "thisMonth": "This Month",
+    "nextMonth": "Next Month",
+    "secondNextMonth": "2nd Next Month",
+    "thirdNextMonth": "3rd Next Month",
+    "thisQuarter": "This Quarter",
+    "thisYear": "This Year",
+    "countSingle": "event",
+    "countPlural": "events",
+    "found": "found",
+    "showFilters": "Show Filters",
+    "hideFilters": "Hide Filters"
+  },
+  "EventTypes": {
+    "Yol koşusu": "Road race",
+    "Gran Fondo": "Gran Fondo",
+    "Patika Koşusu": "Trail running",
+    "Federasyon": "Federation",
+    "Koşu": "Running",
+    "Triatlon": "Triathlon",
+    "Bisiklet": "Cycling",
+    "Duatlon": "Duathlon",
+    "Yüzme": "Swimming"
+  }
+
+  ,
+  "Navbar": {
+    "events": "Events",
+    "about": "About",
+    "contact": "Contact",
+    "logo": "The Active Route"
+  }
+}
