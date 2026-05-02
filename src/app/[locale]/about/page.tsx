@@ -21,10 +21,11 @@ export default function AboutPage() {
         {/* Image placed at the end */}
         <div className="flex items-center justify-center mt-6">
           <Image
-            src="/about.png"
+            src="/about2.png"
             alt={t('imageAlt')}
             width={640}
             height={480}
+            loading="eager"
             className="w-full max-w-3xl h-auto rounded-md shadow"
             sizes="(max-width: 768px) 100vw, 640px"
           />
