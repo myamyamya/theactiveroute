@@ -51,7 +51,8 @@
     "vision": "Yerel etkinlikleri ve aktiviteleri kolayca bulmayı sağlayarak sağlıklı alışkanlıkları destekliyoruz.",
     "howWeHelp": "Etkinlik düzenleyicileri ve katılımcıları bir araya getirerek yerel toplulukların güçlenmesine yardımcı oluyor, gönüllülük fırsatlarını öne çıkarıyor ve her yaşa uygun erişilebilir etkinlikleri vurguluyoruz.",
     "note": "Katılımcıların yerel etkinlikleri keşfetmesine yardımcı olmak için etkinlik bilgilerini topluyoruz. Listeleme topluluk tabanlıdır ve eksiksiz olmayabilir.",
-    "imageAlt": "Harita ve rotaları gösteren görsel"
+    "imageAlt": "Logo",
+    "aboutImageAlt": "Ekipmanlar"
   },
   "ContactPage": {
     "title": "İletişim",

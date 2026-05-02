@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/routing";
@@ -16,8 +17,15 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-              The Active Route
+            <Link href="/" aria-label="The Active Route">
+              <Image
+                src="/navbarlogo.png"
+                alt="The Active Route"
+                width={160}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
           </div>
 

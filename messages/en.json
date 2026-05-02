@@ -51,7 +51,8 @@
     "vision": "We support healthy habits by making it easy to find local events and activities that get people moving.",
     "howWeHelp": "By connecting event organizers and participants, we help build stronger local communities, promote volunteer opportunities, and highlight accessible activities for all ages and abilities.",
     "note": "We aggregate event information to help participants discover and join local activities. This is a community-driven listing and may not be exhaustive.",
-    "imageAlt": "Map and routes illustration"
+    "imageAlt": "Logo",
+    "aboutImageAlt": "Equipments"
   },
   "ContactPage": {
     "title": "Contact",
