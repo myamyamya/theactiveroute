@@ -6,6 +6,7 @@ import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -58,9 +59,10 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col relative bg-zinc-50 dark:bg-zinc-950">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
-          <main className="flex-grow">
+          <main className="flex-grow pb-20">
             {children}
           </main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

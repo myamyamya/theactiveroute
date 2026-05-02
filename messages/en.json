@@ -38,13 +38,74 @@
     "Bisiklet": "Cycling",
     "Duatlon": "Duathlon",
     "Yüzme": "Swimming"
-  }
-
-  ,
+  },
   "Navbar": {
     "events": "Events",
     "about": "About",
     "contact": "Contact",
     "logo": "The Active Route"
+  },
+  "AboutPage": {
+    "title": "About The Active Route",
+    "mission": "This site brings together biking, running and outdoor event listings, with a focus on events held in Türkiye.",
+    "vision": "We support healthy habits by making it easy to find local events and activities that get people moving.",
+    "howWeHelp": "By connecting event organizers and participants, we help build stronger local communities, promote volunteer opportunities, and highlight accessible activities for all ages and abilities.",
+    "note": "We aggregate event information to help participants discover and join local activities. This is a community-driven listing and may not be exhaustive.",
+    "imageAlt": "Map and routes illustration"
+  },
+  "ContactPage": {
+    "title": "Contact",
+    "description": "For questions, corrections, or event submissions, reach out to us. Your feedback is valuable!",
+    "emailLabel": "Email",
+    "email": "theactiveroute@gmail.com",
+    "submitLabel": "Submit an event",
+    "submitNote": "To submit an event, email the details (name, date, location, URL) and we'll review and add it to the calendar.",
+    "privacyNote": "We will not share your email address publicly. Messages are used only to curate and improve the listing."
+  },
+  "PrivacyPage": {
+    "title": "Privacy Policy",
+    "introductionTitle": "Introduction",
+    "introduction": "The Active Route — Effective date: May 2026.",
+    "infoTitle": "Information We Collect",
+    "info": "We automatically collect technical data such as IP address and browser information. We also collect any information you provide (for example, via the contact form or email).",
+    "useTitle": "How We Use Information",
+    "use": "To provide event listings, analyze traffic, and serve relevant advertisements.",
+    "cookiesTitle": "Cookies & Tracking",
+    "cookies": "We use cookies and tracking technologies, including Google AdSense, to provide and improve our services and to serve ads.",
+    "thirdPartyTitle": "Third-Party Sharing",
+    "thirdParty": "We may share data with third parties, including Google, for ad serving and analytics.",
+    "rightsTitle": "Your Rights",
+    "rights": "You may contact us to request deletion of your personal data; we will respond and take appropriate action.",
+    "contactTitle": "Contact Us",
+    "contact": "theactiveroute@gmail.com"
+  },
+  "Footer": {
+    "copyright": "© {year} The Active Route",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact"
+  },
+  "TermsPage": {
+    "title": "Terms of Service",
+    "lastUpdatedLabel": "Last Updated:",
+    "lastUpdated": "May 2, 2026",
+    "agreementTitle": "Agreement to Terms",
+    "agreementText": "By accessing The Active Route (the \"Website\"), you agree to be bound by these Terms of Service. If you do not agree, please discontinue use of the site immediately.",
+    "natureTitle": "Nature of Service",
+    "natureText": "The Active Route is an informational directory for outdoor events (biking, hiking, running).\n\nWe are not event organizers.\n\nWe do not sell tickets directly.\n\nWe provide links to third-party organizers for your convenience.",
+    "accuracyTitle": "Accuracy of Information",
+    "accuracyText": "While we strive for precision, event details (dates, times, locations, entry fees) are subject to change by the organizers without notice. The Active Route does not warrant the completeness or accuracy of any listing. Always verify event details on the official organizer’s website before traveling or registering.",
+    "liabilityTitle": "Limitation of Liability & Physical Risk",
+    "liabilityText": "Outdoor activities carry inherent risks of injury, disability, or death. You acknowledge that participating in any event listed on this Website is done at your own risk. The Active Route, its owners, and its affiliates shall not be held liable for any physical injury, property damage, or financial loss resulting from your participation in an event found via our platform. We are not responsible for the safety standards or conduct of third-party event organizers.",
+    "ipTitle": "Intellectual Property",
+    "ipText": "The curated database of events, site design, and original content on The Active Route are protected by copyright. You may not scrape, crawl, or redistribute our data for commercial purposes without explicit written consent.",
+    "externalTitle": "External Links",
+    "externalText": "Our Service contains links to third-party websites. We have no control over the content, privacy policies, or practices of any third-party sites and assume no responsibility for them.",
+    "changesTitle": "Changes to Service",
+    "changesText": "We reserve the right to withdraw or amend our Service without notice. We will not be liable if for any reason our site is unavailable at any time.",
+    "governingTitle": "Governing Law",
+    "governingText": "These terms are governed by the laws of the jurisdiction in which the Website owner operates, without regard to its conflict of law provisions.",
+    "contactTitle": "Contact",
+    "contactText": "For legal inquiries, please contact: theactiveroute@gmail.com"
   }
 }

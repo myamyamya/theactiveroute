@@ -38,13 +38,74 @@
     "Bisiklet": "Bisiklet",
     "Duatlon": "Duatlon",
     "Yüzme": "Yüzme"
-  }
-
-  ,
+  },
   "Navbar": {
     "events": "Etkinlikler",
     "about": "Hakkında",
     "contact": "İletişim",
     "logo": "The Active Route"
+  },
+  "AboutPage": {
+    "title": "The Active Route Hakkında",
+    "mission": "Bu site, özellikle Türkiye'de düzenlenen bisiklet, koşu ve açık hava etkinliklerini bir araya getirmek için oluşturuldu.",
+    "vision": "Yerel etkinlikleri ve aktiviteleri kolayca bulmayı sağlayarak sağlıklı alışkanlıkları destekliyoruz.",
+    "howWeHelp": "Etkinlik düzenleyicileri ve katılımcıları bir araya getirerek yerel toplulukların güçlenmesine yardımcı oluyor, gönüllülük fırsatlarını öne çıkarıyor ve her yaşa uygun erişilebilir etkinlikleri vurguluyoruz.",
+    "note": "Katılımcıların yerel etkinlikleri keşfetmesine yardımcı olmak için etkinlik bilgilerini topluyoruz. Listeleme topluluk tabanlıdır ve eksiksiz olmayabilir.",
+    "imageAlt": "Harita ve rotaları gösteren görsel"
+  },
+  "ContactPage": {
+    "title": "İletişim",
+    "description": "Sorular, düzeltmeler veya etkinlik gönderimleri için bize ulaşın. Geri bildiriminiz bizim için değerlidir!",
+    "emailLabel": "E-posta",
+    "email": "theactiveroute@gmail.com",
+    "submitLabel": "Etkinlik Gönder",
+    "submitNote": "Etkinlik göndermek için lütfen ad, tarih, konum ve URL bilgilerini e-posta ile gönderin; inceleyip takvime ekleyeceğiz.",
+    "privacyNote": "E-posta adresinizi kamuya açıklamayacağız. Mesajlar yalnızca listelemeyi geliştirmek ve doğrulamak için kullanılacaktır."
+  },
+  "PrivacyPage": {
+    "title": "Gizlilik Politikası",
+    "introductionTitle": "Giriş",
+    "introduction": "The Active Route — Yürürlük tarihi: Mayıs 2026.",
+    "infoTitle": "Topladığımız Bilgiler",
+    "info": "IP adresi ve tarayıcı bilgileri gibi teknik veriler otomatik olarak toplanır. Ayrıca, iletişim formu veya e-posta yoluyla sağladığınız bilgileri de toplarız.",
+    "useTitle": "Bilgileri Nasıl Kullanıyoruz",
+    "use": "Etkinlik listelerini sağlamak, trafiği analiz etmek ve ilgili reklamları sunmak için kullanıyoruz.",
+    "cookiesTitle": "Çerezler ve İzleme",
+    "cookies": "Hizmetlerimizi sunmak ve geliştirmek ile reklamları göstermek için Google AdSense dahil çerezler ve izleme teknolojileri kullanıyoruz.",
+    "thirdPartyTitle": "Üçüncü Taraf Paylaşımı",
+    "thirdParty": "Reklam sunumu ve analiz için Google dahil üçüncü taraflarla veri paylaşabiliriz.",
+    "rightsTitle": "Haklarınız",
+    "rights": "Kişisel verilerinizin silinmesini talep etmek için bizimle iletişime geçebilirsiniz; talebinizi değerlendirip gerekli işlemi yapacağız.",
+    "contactTitle": "İletişim",
+    "contact": "theactiveroute@gmail.com"
+  },
+  "Footer": {
+    "copyright": "© {year} The Active Route",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Şartları",
+    "contact": "İletişim"
+  },
+  "TermsPage": {
+    "title": "Kullanım Şartları",
+    "lastUpdatedLabel": "Son Güncelleme:",
+    "lastUpdated": "2 Mayıs 2026",
+    "agreementTitle": "Şartlara Uyum",
+    "agreementText": "The Active Route'a (\"Web Sitesi\"'ne) erişerek, bu Kullanım Şartları'na bağlı kalmayı kabul edersiniz. Kabul etmiyorsanız, lütfen siteyi kullanmayı derhal durdurun.",
+    "natureTitle": "Hizmetin Niteliği",
+    "natureText": "The Active Route, açık hava etkinlikleri (bisiklet, yürüyüş, koşu) için bilgilendirici bir dizindir.\n\nBiz etkinlik düzenleyicisi değiliz.\n\nBilet satışı yapmıyoruz.\n\nKolaylık olması için üçüncü taraf düzenleyicilere bağlantılar sağlıyoruz.",
+    "accuracyTitle": "Bilgilerin Doğruluğu",
+    "accuracyText": "Doğruluk için çaba göstermemize rağmen, etkinlik detayları (tarih, saat, konum, ücretler) düzenleyiciler tarafından önceden haber verilmeksizin değiştirilebilir. The Active Route, herhangi bir listelemenin eksiksizliği veya doğruluğu konusunda garanti vermez. Seyahat veya kayıt öncesi etkinlik detaylarını resmi düzenleyici sitesinden doğrulayın.",
+    "liabilityTitle": "Sorumluluğun Sınırlandırılması ve Fiziksel Risk",
+    "liabilityText": "Açık hava aktiviteleri yaralanma, sakatlık veya ölüm gibi doğrudan riskler içerir. Bu sitede listelenen herhangi bir etkinliğe katılmanın kendi riskiniz olduğunu kabul edersiniz. The Active Route, sahipleri ve iştirakleri, platformumuz aracılığıyla bulunan bir etkinliğe katılımınızdan kaynaklanan fiziksel yaralanma, mal hasarı veya mali kayıptan sorumlu tutulamaz.",
+    "ipTitle": "Fikri Mülkiyet",
+    "ipText": "Etkinliklerin küratörlüğünü yaptığımız veritabanı, site tasarımı ve orijinal içerik telif hakkı ile korunmaktadır. Verilerimizi ticari amaçla kazımak, taramak veya yeniden dağıtmak için yazılı izin olmadan kullanamazsınız.",
+    "externalTitle": "Harici Bağlantılar",
+    "externalText": "Hizmetimiz üçüncü taraf web sitelerine bağlantılar içerir. Üçüncü taraf sitelerin içerikleri, gizlilik politikaları veya uygulamaları üzerinde kontrolümüz yoktur ve bunlardan sorumlu değiliz.",
+    "changesTitle": "Hizmetimizdeki Değişiklikler",
+    "changesText": "Hizmetimizi önceden haber vermeksizin geri çekme veya değiştirme hakkını saklı tutarız. Sitemizin herhangi bir zamanda kullanılamaması durumunda sorumluluk kabul etmeyiz.",
+    "governingTitle": "Geçerli Hukuk",
+    "governingText": "Bu şartlar, Web Sitesi sahibinin faaliyet gösterdiği yargı bölgesinin kanunlarına tabi olacaktır ve çatışan hukuk hükümlerine bakılmaksızın uygulanacaktır.",
+    "contactTitle": "İletişim",
+    "contactText": "Hukuki talepler için lütfen şu adrese yazın: theactiveroute@gmail.com"
   }
 }

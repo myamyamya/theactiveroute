@@ -26,10 +26,10 @@ export default function Navbar() {
             <Link href="/" className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors font-medium">
               {t('events')}
             </Link>
-            <Link href="/" className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors font-medium">
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors font-medium">
               {t('about')}
             </Link>
-            <Link href="/" className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors font-medium">
+            <Link href="/contact" className="text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors font-medium">
               {t('contact')}
             </Link>
             <div className="pl-4 border-l border-gray-300 dark:border-gray-700">
@@ -55,14 +55,17 @@ export default function Navbar() {
         <div className="md:hidden bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-gray-800 absolute w-full left-0">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-lg">
               <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
-              {t('events')}
-            </Link>
-            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
-              {t('about')}
-            </Link>
-            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
-              {t('contact')}
-            </Link>
+                {t('events')}
+              </Link>
+              <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
+                {t('about')}
+              </Link>
+              <Link href="/privacy" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
+                {t('privacy')}
+              </Link>
+              <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400 transition-colors">
+                {t('contact')}
+              </Link>
           </div>
         </div>
       )}
