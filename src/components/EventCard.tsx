@@ -9,6 +9,9 @@ export default function EventCard({ event }: { event: SportEvent }) {
   const dateLocale = locale === 'tr' ? tr : enUS;
   const tTypes = useTranslations('EventTypes');
 
+  // normalize potential subRaces coming from CSV mapping or older data
+  const subs = (event as any).subRaces ?? event.subRaces;
+
   // Robust date parsing: trims time and handles non-padded YYYY-M-D
   const parseDate = (dateStr: string) => {
     if (!dateStr) return new Date(NaN);
@@ -62,9 +65,9 @@ export default function EventCard({ event }: { event: SportEvent }) {
             {event.name}
           </h3>
           {/* Sub-race badges below title, above date */}
-          {((event as any).subRaces as string[] | undefined)?.length > 0 && (
+          {Array.isArray(subs) && subs.length > 0 && (
             <div className="mb-3 flex flex-wrap gap-2">
-              {((event as any).subRaces as string[]).map((sr: string) => (
+              {subs.map((sr: string) => (
                 <div key={sr} className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/80 dark:bg-black/40 text-gray-800 dark:text-gray-200 shadow-sm">
                   {sr}
                 </div>
