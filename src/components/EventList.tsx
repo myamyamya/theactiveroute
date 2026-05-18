@@ -417,7 +417,7 @@ export default function EventList({ events }: { events: SportEvent[] }) {
               onChange={(e) => setLocationFilter(e.target.value)}
               onFocus={() => setLocationOpen(true)}
               onKeyDown={onLocationKeyDown}
-              className="w-full px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-800 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-800 text-base md:text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder={t('location') || 'Location'}
             />
 
@@ -426,7 +426,7 @@ export default function EventList({ events }: { events: SportEvent[] }) {
                 type="button"
                 aria-label={t('clear') || 'Clear'}
                 onClick={() => { setLocationFilter(''); setLocationOpen(false); setHighlightedIndex(-1); }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600 dark:text-gray-300 hover:underline px-2 py-1"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-base md:text-sm text-gray-600 dark:text-gray-300 hover:underline px-2 py-1"
               >
                 {t('clear') || 'Clear'}
               </button>
@@ -441,7 +441,7 @@ export default function EventList({ events }: { events: SportEvent[] }) {
                     key={loc}
                     onMouseDown={(e) => { e.preventDefault(); setLocationFilter(loc); setLocationOpen(false); setHighlightedIndex(-1); }}
                     onMouseEnter={() => setHighlightedIndex(idx)}
-                    className={`px-3 py-2 text-sm text-gray-800 dark:text-gray-200 cursor-pointer ${highlightedIndex === idx ? 'bg-gray-100 dark:bg-zinc-700 font-semibold' : 'hover:bg-gray-100 dark:hover:bg-zinc-700'}`}
+                    className={`px-3 py-2 text-base md:text-sm text-gray-800 dark:text-gray-200 cursor-pointer ${highlightedIndex === idx ? 'bg-gray-100 dark:bg-zinc-700 font-semibold' : 'hover:bg-gray-100 dark:hover:bg-zinc-700'}`}
                   >
                     {loc}
                   </li>
