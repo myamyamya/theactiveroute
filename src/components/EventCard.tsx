@@ -61,7 +61,17 @@ export default function EventCard({ event }: { event: SportEvent }) {
           <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white line-clamp-2">
             {event.name}
           </h3>
-          
+          {/* Sub-race badges below title, above date */}
+          {((event as any).subRaces as string[] | undefined)?.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {((event as any).subRaces as string[]).map((sr: string) => (
+                <div key={sr} className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/80 dark:bg-black/40 text-gray-800 dark:text-gray-200 shadow-sm">
+                  {sr}
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="mt-auto pt-4 flex items-end justify-between gap-4">
             <div className="flex items-center text-sm text-gray-700 dark:text-gray-300 font-medium shrink-0">
               <span className="mr-2 opacity-75">🗓</span>
@@ -72,22 +82,32 @@ export default function EventCard({ event }: { event: SportEvent }) {
                 )}
               </div>
             </div>
-            
-            <div className="flex flex-row flex-wrap justify-end gap-2 items-center">
-              {event.eventType && event.eventType !== "Unknown" && (
-                <div className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/80 dark:bg-blue-900/60 backdrop-blur-sm text-blue-800 dark:text-blue-200 shadow-sm text-center">
-                  {(() => {
-                    try {
-                      const v = tTypes(event.eventType as any);
-                      return v || event.eventType;
-                    } catch {
-                      return event.eventType;
-                    }
-                  })()}
+
+            {/* Right column: location (above) then type/status (bottom-right) */}
+            <div className="flex flex-col items-end gap-2">
+              {event.location && (
+                <div className="px-2 py-0.5 rounded-full text-xs font-semibold bg-white/80 dark:bg-black/40 text-gray-800 dark:text-gray-200 shadow-sm">
+                  {event.location}
                 </div>
               )}
-              <div className="px-3 py-1 rounded-full text-xs font-semibold bg-white/80 dark:bg-black/60 backdrop-blur-sm text-gray-800 dark:text-gray-200 shadow-sm text-center">
-                {statusLabel}
+
+              <div className="flex items-center gap-2">
+                {event.eventType && event.eventType !== "Unknown" && (
+                  <div className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100/80 dark:bg-blue-900/60 backdrop-blur-sm text-blue-800 dark:text-blue-200 shadow-sm text-center">
+                    {(() => {
+                      try {
+                        const v = tTypes(event.eventType as any);
+                        return v || event.eventType;
+                      } catch {
+                        return event.eventType;
+                      }
+                    })()}
+                  </div>
+                )}
+
+                <div className="px-3 py-1 rounded-full text-xs font-semibold bg-white/80 dark:bg-black/60 backdrop-blur-sm text-gray-800 dark:text-gray-200 shadow-sm text-center">
+                  {statusLabel}
+                </div>
               </div>
             </div>
           </div>

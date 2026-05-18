@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import { useTranslations, useLocale } from 'next-intl';
 import { tr, enUS } from 'date-fns/locale';
@@ -11,12 +11,100 @@ export default function EventList({ events }: { events: SportEvent[] }) {
   const t = useTranslations('EventFilter');
   const tCard = useTranslations('EventCard');
   const tTypes = useTranslations('EventTypes');
+  const tSub = useTranslations('EventSubRaces');
   const curLocale = useLocale();
   const dateLocale = curLocale === 'tr' ? tr : enUS;
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+  const [selectedSubRaces, setSelectedSubRaces] = useState<string[]>([]);
   const [selectedTimespan, setSelectedTimespan] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [locationFilter, setLocationFilter] = useState('');
+  const [locationOpen, setLocationOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const locations = useMemo(() => {
+    const s = new Set<string>();
+    events.forEach(ev => {
+      if (ev.location) s.add(ev.location);
+    });
+    return Array.from(s).sort();
+  }, [events]);
+
+  const filteredLocationSuggestions = useMemo(() => {
+    const q = (locationFilter || '').toLowerCase().trim();
+    if (!q) return locations.slice(0, 50);
+    return locations.filter(l => l.toLowerCase().includes(q)).slice(0, 50);
+  }, [locations, locationFilter]);
+
+  // reset or initialize highlight when dropdown opens or suggestions change
+  useMemo(() => {
+    if (!locationOpen) return;
+    setHighlightedIndex(filteredLocationSuggestions.length > 0 ? 0 : -1);
+  }, [locationOpen, filteredLocationSuggestions]);
+
+  // close listbox when clicking outside the input/suggestions or when focus moves elsewhere
+  useEffect(() => {
+    if (!locationOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const el = containerRef.current;
+      if (!el) return;
+      const target = e.target as Node | null;
+      if (target && !el.contains(target)) {
+        setLocationOpen(false);
+        setHighlightedIndex(-1);
+      }
+    };
+
+    const onFocusIn = (e: FocusEvent) => {
+      const el = containerRef.current;
+      if (!el) return;
+      const target = e.target as Node | null;
+      if (target && !el.contains(target)) {
+        setLocationOpen(false);
+        setHighlightedIndex(-1);
+      }
+    };
+
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('focusin', onFocusIn);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('focusin', onFocusIn);
+    };
+  }, [locationOpen]);
+
+  const onLocationKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!locationOpen && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      setLocationOpen(true);
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex(prev => {
+        const next = prev + 1;
+        return next >= filteredLocationSuggestions.length ? 0 : next;
+      });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex(prev => {
+        const next = prev - 1;
+        return next < 0 ? Math.max(0, filteredLocationSuggestions.length - 1) : next;
+      });
+    } else if (e.key === 'Enter') {
+      if (highlightedIndex >= 0 && highlightedIndex < filteredLocationSuggestions.length) {
+        e.preventDefault();
+        const sel = filteredLocationSuggestions[highlightedIndex];
+        setLocationFilter(sel);
+        setLocationOpen(false);
+        setHighlightedIndex(-1);
+      }
+    } else if (e.key === 'Escape') {
+      setLocationOpen(false);
+      setHighlightedIndex(-1);
+    }
+  };
 
   // Extract unique event types, filtering out falsy/Unknown values
   const eventTypes = useMemo(() => {
@@ -27,6 +115,79 @@ export default function EventList({ events }: { events: SportEvent[] }) {
       }
     });
     return Array.from(types).sort();
+  }, [events]);
+
+  // Group sub-races into logical buckets (e.g. 5K, 10K, Half, Ultra, Kids)
+  const eventSubRaceGroups = useMemo(() => {
+    const groups = new Map<string, Set<string>>();
+
+    const categorize = (raw: string) => {
+      const s = (raw || '').toString().toLowerCase().trim();
+      if (!s) return 'other';
+      // Kids / child
+      if (s.includes('çocuk') || s.includes('child') || s.includes('kids')) return 'kids';
+      // Triathlon tokens
+      if (s.includes('triathlon') || s.includes('triatlon')) {
+        if (s.includes('sprint')) return 'triathlon_sprint';
+        if (s.includes('mini') || s.includes('super')) return 'triathlon_short';
+        if (s.includes('half') || s.includes('70.3') || s.includes('half iron')) return 'triathlon_half';
+        if (s.includes('iron') || s.includes('full')) return 'triathlon_full';
+        return 'triathlon';
+      }
+      if (s.includes('aquathlon') || s.includes('yüzme')) return 'swimming_aquathlon';
+
+      // look for numeric distance like 10K, 21K, 5.6K, 100M
+      const m = s.match(/(\d+(?:[\.,]\d+)?)(?:\s*)(k|km|m|k\b|m\b)?/i);
+      if (m) {
+        let num = parseFloat(m[1].replace(',', '.'));
+        const unit = (m[2] || '').toLowerCase();
+        if (unit === 'm' && num > 10) {
+          // treat as meters >10 as kilometers? leave as other
+        }
+        // convert miles-ish not handled; assume K means kilometers
+        if (!isNaN(num)) {
+          if (num <= 1) return 'short_1k';
+          if (num <= 5) return 'short_5k';
+          if (num <= 10) return '5_10k';
+          if (num <= 21) return '10_21k';
+          if (num <= 42) return '21_42k';
+          return 'ultra_gt_42k';
+        }
+      }
+
+      // Gran Fondo / Cycling
+      if (s.includes('gran fondo') || s.includes('gran')) return 'cycling_gran_fondo';
+
+      // fallback
+      return 'other';
+    };
+
+    events.forEach(ev => {
+      const subs = (ev as any).subRaces ?? ev.subRaces;
+      if (Array.isArray(subs)) {
+        subs.forEach((raw: string) => {
+          const group = categorize(raw);
+          if (!groups.has(group)) groups.set(group, new Set());
+          groups.get(group)!.add((raw || '').toString().trim());
+        });
+      }
+    });
+
+    // return array of groups sorted by a sensible order
+    const order = ['kids','short_1k','short_5k','5_10k','10_21k','21_42k','ultra_gt_42k','triathlon_sprint','triathlon_short','triathlon_half','triathlon_full','cycling_gran_fondo','swimming_aquathlon','triathlon','other'];
+    const result: { key: string; examples: string[] }[] = [];
+    Array.from(groups.keys()).sort((a,b) => {
+      const ai = order.indexOf(a);
+      const bi = order.indexOf(b);
+      if (ai === -1 && bi === -1) return a.localeCompare(b);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    }).forEach(k => {
+      result.push({ key: k, examples: Array.from(groups.get(k)!).slice(0,3) });
+    });
+
+    return result;
   }, [events]);
 
   // Build unique status list from events using same logic as filtering
@@ -125,6 +286,48 @@ export default function EventList({ events }: { events: SportEvent[] }) {
         if (!ev.eventType || !selectedTypes.includes(ev.eventType)) return false;
       }
 
+      // Location filter (typed dropdown)
+      if (locationFilter && locationFilter.trim() !== '') {
+        const q = locationFilter.toLowerCase();
+        if (!ev.location || !ev.location.toLowerCase().includes(q)) return false;
+      }
+
+      // Sub-race filter: selectedSubRaces contains group keys — match if any sub-race maps to a selected group
+      if (selectedSubRaces && selectedSubRaces.length > 0) {
+        const evSubs = (ev as any).subRaces ?? ev.subRaces ?? [];
+        if (!Array.isArray(evSubs)) return false;
+        const categorize = (raw: string) => {
+          const s = (raw || '').toString().toLowerCase().trim();
+          if (!s) return 'other';
+          if (s.includes('çocuk') || s.includes('child') || s.includes('kids')) return 'kids';
+          if (s.includes('triathlon') || s.includes('triatlon')) {
+            if (s.includes('sprint')) return 'triathlon_sprint';
+            if (s.includes('mini') || s.includes('super')) return 'triathlon_short';
+            if (s.includes('half') || s.includes('70.3') || s.includes('half iron')) return 'triathlon_half';
+            if (s.includes('iron') || s.includes('full')) return 'triathlon_full';
+            return 'triathlon';
+          }
+          if (s.includes('aquathlon') || s.includes('yüzme')) return 'swimming_aquathlon';
+          const m = s.match(/(\d+(?:[\.,]\d+)?)(?:\s*)(k|km|m|k\b|m\b)?/i);
+          if (m) {
+            let num = parseFloat(m[1].replace(',', '.'));
+            if (!isNaN(num)) {
+              if (num <= 1) return 'short_1k';
+              if (num <= 5) return 'short_5k';
+              if (num <= 10) return '5_10k';
+              if (num <= 21) return '10_21k';
+              if (num <= 42) return '21_42k';
+              return 'ultra_gt_42k';
+            }
+          }
+          if (s.includes('gran fondo') || s.includes('gran')) return 'cycling_gran_fondo';
+          return 'other';
+        };
+
+        const anyMatch = evSubs.some((s: string) => selectedSubRaces.includes(categorize(s)));
+        if (!anyMatch) return false;
+      }
+
       // Status filter
       if (selectedStatuses && selectedStatuses.length > 0) {
         const s = eventStatusLabel(ev);
@@ -199,10 +402,60 @@ export default function EventList({ events }: { events: SportEvent[] }) {
 
       return true;
     });
-  }, [events, selectedTypes, selectedStatuses, selectedTimespan]);
+  }, [events, selectedTypes, selectedStatuses, selectedSubRaces, selectedTimespan, locationFilter]);
 
   return (
     <div>
+      {/* Location (searchable dropdown) */}
+      <div className="flex-1">
+        <div className="w-full">
+          <div ref={containerRef} className="relative">
+            <input
+              type="text"
+              aria-label="Filter by location"
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              onFocus={() => setLocationOpen(true)}
+              onKeyDown={onLocationKeyDown}
+              className="w-full px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-800 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder={t('location') || 'Location'}
+            />
+
+            {locationFilter && (
+              <button
+                type="button"
+                aria-label={t('clear') || 'Clear'}
+                onClick={() => { setLocationFilter(''); setLocationOpen(false); setHighlightedIndex(-1); }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600 dark:text-gray-300 hover:underline px-2 py-1"
+              >
+                {t('clear') || 'Clear'}
+              </button>
+            )}
+
+            {locationOpen && filteredLocationSuggestions.length > 0 && (
+              <ul role="listbox" className="absolute z-20 mt-2 w-full max-h-48 overflow-auto rounded-lg bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 shadow-lg py-1">
+                {filteredLocationSuggestions.map((loc, idx) => (
+                  <li
+                    role="option"
+                    aria-selected={highlightedIndex === idx}
+                    key={loc}
+                    onMouseDown={(e) => { e.preventDefault(); setLocationFilter(loc); setLocationOpen(false); setHighlightedIndex(-1); }}
+                    onMouseEnter={() => setHighlightedIndex(idx)}
+                    className={`px-3 py-2 text-sm text-gray-800 dark:text-gray-200 cursor-pointer ${highlightedIndex === idx ? 'bg-gray-100 dark:bg-zinc-700 font-semibold' : 'hover:bg-gray-100 dark:hover:bg-zinc-700'}`}
+                  >
+                    {loc}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {/* clear button moved into the input (right side) */}
+        </div>
+      </div>
+
+      {/* separator */}
+      <hr className="border-t border-gray-200 my-3" />
+
       {/* Filters */}
       <div className="mb-8 pb-4">
         {/* Toggle button */}
@@ -226,9 +479,10 @@ export default function EventList({ events }: { events: SportEvent[] }) {
               {/* We'll compute stagger delays so buttons fade/slide in sequence */}
               {(() => {
                 const typeBase = 0;
-                const statusBase = typeBase + 1 + eventTypes.length;
+                const subBase = typeBase + 1 + eventTypes.length;
+                const statusBase = subBase + 1 + eventSubRaceGroups.length;
                 const timespanBase = statusBase + 1 + eventStatuses.length;
-                const totalButtons = 1 + eventTypes.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
+                const totalButtons = 1 + eventTypes.length + 1 + eventSubRaceGroups.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
 
                 const delayFor = (pos: number) => filtersOpen ? `${pos * 40}ms` : `${(totalButtons - pos) * 25}ms`;
 
@@ -288,14 +542,80 @@ export default function EventList({ events }: { events: SportEvent[] }) {
           {/* separator */}
           <hr className="border-t border-gray-200 my-3" />
 
+          {/* SubRaces group */}
+          <div className="flex-1">
+            <div className="flex flex-wrap gap-2">
+              {/* We'll compute stagger delays so buttons fade/slide in sequence */}
+              {(() => {
+                const typeBase = 0;
+                const subBase = typeBase + 1 + eventTypes.length;
+                const statusBase = subBase + 1 + eventSubRaceGroups.length;
+                const timespanBase = statusBase + 1 + eventStatuses.length;
+                const totalButtons = 1 + eventTypes.length + 1 + eventSubRaceGroups.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
+
+                const delayFor = (pos: number) => filtersOpen ? `${pos * 40}ms` : `${(totalButtons - pos) * 25}ms`;
+
+                return (
+                  <>
+                    <button
+                      onClick={() => setSelectedSubRaces([])}
+                      aria-pressed={selectedSubRaces.length === 0}
+                      style={{ transitionDelay: delayFor(subBase) }}
+                      className={`px-4 py-2 rounded-full text-sm font-semibold transition-opacity transition-transform duration-300 whitespace-nowrap truncate max-w-[160px] ${
+                        selectedSubRaces.length === 0
+                          ? "bg-blue-600 text-white shadow-md scale-105"
+                          : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700"
+                      } ${filtersOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'}`}
+                    >
+                      {t('all')}
+                    </button>
+
+                    {eventSubRaceGroups.map((g, i) => {
+                      const key = g.key;
+                      const pos = subBase + 1 + i;
+                      const isSelected = selectedSubRaces.includes(key);
+                      const label = (() => {
+                        try {
+                          const v = tSub(key as any);
+                          return v || key;
+                        } catch {
+                          return key;
+                        }
+                      })();
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => setSelectedSubRaces(prev => prev.includes(key) ? prev.filter(s => s !== key) : [...prev, key])}
+                          aria-pressed={isSelected}
+                          style={{ transitionDelay: delayFor(pos) }}
+                          className={`px-4 py-2 rounded-full text-sm font-semibold transition-opacity transition-transform duration-300 whitespace-nowrap truncate max-w-[160px] ${
+                            isSelected
+                              ? "bg-blue-600 text-white shadow-md scale-105"
+                              : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-200 dark:border-gray-700"
+                          } ${filtersOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'}`}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+          
+          {/* separator */}
+          <hr className="border-t border-gray-200 my-3" />
+
           {/* Status group */}
           <div className="flex-1">
             <div className="flex flex-wrap gap-2">
               {(() => {
                 const typeBase = 0;
-                const statusBase = typeBase + 1 + eventTypes.length;
+                const subBase = typeBase + 1 + eventTypes.length;
+                const statusBase = subBase + 1 + eventSubRaceGroups.length;
                 const timespanBase = statusBase + 1 + eventStatuses.length;
-                const totalButtons = 1 + eventTypes.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
+                const totalButtons = 1 + eventTypes.length + 1 + eventSubRaceGroups.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
                 const delayFor = (pos: number) => filtersOpen ? `${pos * 40}ms` : `${(totalButtons - pos) * 25}ms`;
 
                 const statusAllPos = statusBase;
@@ -349,9 +669,10 @@ export default function EventList({ events }: { events: SportEvent[] }) {
             <div className="flex flex-wrap gap-2">
               {(() => {
                 const typeBase = 0;
-                const statusBase = typeBase + 1 + eventTypes.length;
+                const subBase = typeBase + 1 + eventTypes.length;
+                const statusBase = subBase + 1 + eventSubRaceGroups.length;
                 const timespanBase = statusBase + 1 + eventStatuses.length;
-                const totalButtons = 1 + eventTypes.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
+                const totalButtons = 1 + eventTypes.length + 1 + eventSubRaceGroups.length + 1 + eventStatuses.length + 1 + timespanOptions.length;
                 const delayFor = (pos: number) => filtersOpen ? `${pos * 40}ms` : `${(totalButtons - pos) * 25}ms`;
 
                 const timespanAllPos = timespanBase;
@@ -412,7 +733,7 @@ export default function EventList({ events }: { events: SportEvent[] }) {
       
       {filteredEvents.length === 0 && (
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-          No events found for this category.
+          {t('noResults') || 'No events found for this category.'}
         </div>
       )}
     </div>

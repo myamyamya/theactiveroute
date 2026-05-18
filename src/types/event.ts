@@ -9,8 +9,10 @@ export interface SportEvent {
   startDate: string;
   endDate: string;
   image: string;
+  location?: string;
   description: string;
   eventType?: string;
+  subRaces?: string[];
   organizer?: {
     "@type": string;
     name: string;
